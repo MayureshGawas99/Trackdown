@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { SnackbarProvider } from "notistack";
 import { getUserFromEmail, selectData } from "./firebaseconfig/CRUD";
+import Pagenotfound from "./pages/Pagenotfound";
 
 export const MapContext = createContext();
 function App() {
@@ -67,6 +68,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/*" element={<Pagenotfound />} />
         </Routes>
       </MapContext.Provider>
     </BrowserRouter>

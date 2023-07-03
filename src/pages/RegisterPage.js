@@ -4,9 +4,7 @@ import {
   MDBCol,
   MDBRow,
   MDBBtn,
-  MDBIcon,
   MDBInput,
-  MDBCheckbox,
 } from "mdb-react-ui-kit";
 import { useNavigate } from "react-router-dom";
 import { enqueueSnackbar } from "notistack";

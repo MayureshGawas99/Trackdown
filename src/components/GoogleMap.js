@@ -5,13 +5,11 @@ import {
   GoogleApiWrapper,
   Polyline,
 } from "google-maps-react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { MapContext } from "../App";
-import { getUserFromEmail, selectData } from "../firebaseconfig/CRUD";
 
 function GoogleMap(props) {
-  const { mapstate, setMapstate, cords, setCords, email, db } =
-    useContext(MapContext);
+  const { mapstate, setMapstate, cords } = useContext(MapContext);
 
   const onMarkerClick = (props, marker, e) =>
     setMapstate({
@@ -74,5 +72,5 @@ function GoogleMap(props) {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDmkULFE7yqNAqSBSnDFXNML9wp0b2aemg",
+  apiKey: process.env.REACT_APP_GOOGLE_API_KEY,
 })(GoogleMap);

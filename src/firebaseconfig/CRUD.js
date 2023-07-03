@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { ref, set, get, update, remove, child } from "firebase/database";
+import { ref, set, get, child } from "firebase/database";
 import { MapContext } from "../App";
 
 export const addData = async (db, user, cord) => {

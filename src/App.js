@@ -1,6 +1,5 @@
 import "./App.css";
-import React, { createContext, useEffect, useState } from "react";
-import StartFirebase from "./firebaseconfig/firebase";
+import React, { createContext, useState } from "react";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -9,67 +8,69 @@ import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { SnackbarProvider } from "notistack";
-import { getUserFromEmail, selectData } from "./firebaseconfig/CRUD";
 import Pagenotfound from "./pages/Pagenotfound";
+import ProfilePage from "./pages/ProfilePage";
+import LogPage from "./pages/LogPage";
+import Avatar from "./pages/Avatar";
 
 export const MapContext = createContext();
-function App() {
-  const [db, setDb] = useState(null);
+export const UserContext = createContext();
 
+function App() {
   const [mapstate, setMapstate] = useState({
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
   });
-  const [email, setEmail] = useState("");
-  // { lat: 19.2183, lng: 72.9781 }
-  let [cords, setCords] = useState([]);
-  useEffect(() => {
-    getdb(db);
-  }, []);
+  const [cords, setCords] = useState({ lat: 19.146342, lng: 72.931738 });
+  const [time, setTime] = useState(120);
+  const mapData = {
+    mapstate,
+    setMapstate,
+    cords,
+    setCords,
+    time,
+    setTime,
+  };
 
-  const getdb = async (db) => {
-    try {
-      const newdb = await StartFirebase();
-      setDb(newdb);
-      const localemail = localStorage.getItem("email");
-      const ans = getUserFromEmail(localemail);
-      const res = await selectData(newdb, ans);
-      const newcords = cords.concat([
-        { lat: parseFloat(res.lat), lng: parseFloat(res.lng) },
-      ]);
-      setCords(newcords);
-    } catch (error) {
-      console.log(error);
-    }
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mac, setMac] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const userData = {
+    name,
+    setName,
+    email,
+    setEmail,
+    phone,
+    setPhone,
+    mac,
+    setMac,
+    address,
+    setAddress,
   };
 
   return (
     <BrowserRouter>
-      <MapContext.Provider
-        value={{
-          mapstate,
-          setMapstate,
-          cords,
-          setCords,
-          db,
-          setDb,
-          email,
-          setEmail,
-        }}
-      >
-        <div>
-          <Navbar />
-        </div>
-        <SnackbarProvider />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/*" element={<Pagenotfound />} />
-        </Routes>
+      <MapContext.Provider value={mapData}>
+        <UserContext.Provider value={userData}>
+          <div className="root">
+            <Navbar />
+            <SnackbarProvider />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/avatar" element={<Avatar />} />
+              <Route path="/logs" element={<LogPage />} />
+              <Route path="/*" element={<Pagenotfound />} />
+            </Routes>
+          </div>
+        </UserContext.Provider>
       </MapContext.Provider>
     </BrowserRouter>
   );

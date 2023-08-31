@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import GoogleMap from "../components/GoogleMap";
 import { useNavigate } from "react-router-dom";
-import { getUserFromEmail, selectData } from "../firebaseconfig/CRUD";
 import { MapContext } from "../App";
 import Footer from "../components/Footer";
+import axios from "axios";
 
 export default function HomePage() {
-  const { cords, setCords, db } = useContext(MapContext);
+  const { cords, setCords, setTime } = useContext(MapContext);
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -15,37 +15,60 @@ export default function HomePage() {
       navigate("/login");
     }
   }, []);
-  setInterval(() => {
-    getcordinates(db);
-  }, 120000);
+  useEffect(() => {
+    // Function to fetch data from the API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API}/api/v1/cords/fetchcords`,
+          {
+            headers: {
+              "auth-token": localStorage.getItem("token"),
+            },
+          }
+        );
+        if (response.status === 200) {
+          const { lat, lng } = response.data.cords;
+          let newCords = { lat: lat, lng: lng };
+          setCords(newCords);
+          // console.log(cords);
+        } else {
+          console.error("Failed to fetch data:", response.status);
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching data:", error);
+      }
+    };
 
-  const getcordinates = async (db) => {
-    try {
-      const localemail = localStorage.getItem("email");
-      const ans = getUserFromEmail(localemail);
-      const res = await selectData(db, ans);
-      const newcords = cords.concat([
-        { lat: parseFloat(res.lat), lng: parseFloat(res.lng) },
-      ]);
-      setCords(newcords);
-      console.log(cords);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    // Function to update the time remaining
+    const updateRemainingTime = () => {
+      setTime((prevTime) => (prevTime > 0 ? prevTime - 1 : 120)); // Reset to 2 minutes if time is up
+    };
+
+    // Fetch data initially
+    fetchData();
+
+    // Set up an interval to fetch data every 2 minutes
+    const intervalId = setInterval(() => {
+      window.location.reload();
+    }, 120000); // 2 minutes in milliseconds
+
+    // Set up an interval to update the time remaining every second
+    const timeIntervalId = setInterval(() => {
+      updateRemainingTime();
+    }, 1000);
+
+    // Clean up intervals when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+      clearInterval(timeIntervalId);
+    };
+  }, []);
 
   return (
-    <div style={{ width: "100%", height: "500px" }}>
+    <div className="child">
       <h2 className="text-center">Live Location</h2>
-      {/* <CRUD /> */}
-      {/* <button
-        onClick={() => {
-          getcordinates(db);
-        }}
-      >
-        get Cord
-      </button> */}
-      {cords.length !== 0 && <GoogleMap />}
+      {/* {cords && <GoogleMap />} */}
       <Footer />
     </div>
   );

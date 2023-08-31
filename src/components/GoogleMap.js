@@ -1,10 +1,4 @@
-import {
-  Map,
-  InfoWindow,
-  Marker,
-  GoogleApiWrapper,
-  Polyline,
-} from "google-maps-react";
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 import React, { useContext } from "react";
 import { MapContext } from "../App";
 
@@ -42,19 +36,19 @@ function GoogleMap(props) {
       containerStyle={containerStyle}
       google={props.google}
       zoom={14}
-      center={cords[cords.length - 1]}
-      initialCenter={cords[0]}
+      center={cords}
+      initialCenter={cords}
       onClick={onMapClicked}
     >
-      <Polyline
+      {/* <Polyline
         path={cords}
         strokeColor="#0000FF"
         strokeOpacity={0.8}
         strokeWeight={2}
-      />
+      /> */}
       <Marker
         title={"The marker`s title will appear as a tooltip."}
-        position={cords[cords.length - 1]}
+        position={cords}
         onClick={onMarkerClick}
         name={"Current location "}
       />

@@ -1,0 +1,34 @@
+.root {
+  display: flex;
+  flex-direction: column; /* Or 'row' depending on your layout */
+  height: 100vh; /* Set the desired height of the parent */
+  /* width: 500px; Set the desired width of the parent */
+}
+
+.child {
+  flex-grow: 1;
+  /* The child will take up all available space */
+}
+
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 24px;
+  line-height: 1.33;
+}
+
+.btn-circle {
+  width: 36px;
+  height: 36px;
+  padding: 10px 0px;
+  border-radius: 18px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
+.image-fit {
+  object-fit: contain;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Dropdown from "./Dropdown";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -66,13 +67,10 @@ export default function Navbar() {
             {!localStorage.getItem("token") ? (
               <p></p>
             ) : (
-              <button
-                className="btn btn-primary"
-                role="button"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              // <button className="btn btn-primary" onClick={handleLogout}>
+              //   Logout
+              // </button>
+              <Dropdown handleLogout={handleLogout} />
             )}
           </div>
         </div>

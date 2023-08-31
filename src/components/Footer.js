@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { MapContext } from "../App";
 
 export default function Footer() {
-  //   setInterval(() => {
-  //     setTime(time - 1);
-  //   }, 1000);
+  const { time } = useContext(MapContext);
+
   return (
-    <div>
-      <p className="text-center">Page Updates in 120 Seconds</p>
+    <div className="fixed-bottom">
+      <p className="text-center">Page Updates in {time} Seconds</p>
     </div>
   );
 }

@@ -9,7 +9,10 @@ export default function Avatar() {
       {/* d-flex flex-wrap justify-content-evenly  align-items-center */}
       <div className="row p-3">
         {arr.map((ele) => (
-          <div className="col-md-3 mb-3 d-flex justify-content-center">
+          <div
+            className="col-md-3 mb-3 d-flex justify-content-center"
+            key={ele}
+          >
             <div key={ele} className="card  " style={{ width: "15rem" }}>
               <img
                 src={`./images/${ele}.jpg`}

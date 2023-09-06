@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 export default function Dropdown(props) {
   return (
-    <div class="btn-group ">
+    <div className="btn-group ">
       {/* <button
         type="button"
-        class="btn btn-primary "
+        className="btn btn-primary "
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
@@ -15,20 +15,20 @@ export default function Dropdown(props) {
       <div className="">
         <button
           type="button"
-          class="btn btn-primary btn-circle d-flex justify-content-center align-items-center"
+          className="btn btn-primary btn-circle d-flex justify-content-center align-items-center"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <span class="material-symbols-outlined">person</span>
+          <span className="material-symbols-outlined">person</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end">
+        <ul className="dropdown-menu dropdown-menu-end">
           <li>
-            <Link class="dropdown-item" to="/profile">
+            <Link className="dropdown-item" to="/profile">
               Profile
             </Link>
           </li>
           <li>
-            <Link class="dropdown-item" to="/logs">
+            <Link className="dropdown-item" to="/logs">
               Logs
             </Link>
           </li>
@@ -36,7 +36,7 @@ export default function Dropdown(props) {
             <hr className="dropdown-divider" />
           </li>
           <li>
-            <a class="dropdown-item" onClick={props.handleLogout}>
+            <a className="dropdown-item" onClick={props.handleLogout}>
               Logout
             </a>
           </li>

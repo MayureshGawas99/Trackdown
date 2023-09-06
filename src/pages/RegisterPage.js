@@ -57,7 +57,7 @@ export default function RegisterPage() {
           <MDBCol col="10" md="7">
             <img
               src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-              class="img-fluid"
+              className="img-fluid"
               alt="Login"
             />
           </MDBCol>

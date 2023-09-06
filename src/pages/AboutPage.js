@@ -8,7 +8,7 @@ const About = () => {
         <div className="col-md-7 ">
           <img
             src="/images/about.jpg"
-            alt="contactus"
+            alt="aboutus"
             className="w-100 h-100 px-5"
           />
         </div>

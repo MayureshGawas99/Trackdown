@@ -3,7 +3,8 @@ import React, { useContext } from "react";
 import { MapContext } from "../App";
 
 function GoogleMap(props) {
-  const { mapstate, setMapstate, cords } = useContext(MapContext);
+  const { mapstate, setMapstate } = useContext(MapContext);
+  const cords = props.cordinates;
 
   const onMarkerClick = (props, marker, e) =>
     setMapstate({

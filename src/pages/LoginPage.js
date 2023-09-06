@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   MDBContainer,
@@ -41,6 +41,12 @@ export default function LoginPage() {
     }
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="container">
       <MDBContainer fluid className="p-3 my-5">
@@ -57,7 +63,7 @@ export default function LoginPage() {
               <MDBInput
                 wrapperClass="mb-3"
                 placeholder="Email"
-                id="formControlLg"
+                id="formControlLg1"
                 type="email"
                 size="md"
                 value={email}

@@ -12,6 +12,7 @@ import Pagenotfound from "./pages/Pagenotfound";
 import ProfilePage from "./pages/ProfilePage";
 import LogPage from "./pages/LogPage";
 import Avatar from "./pages/Avatar";
+import MapPage from "./pages/MapPage";
 
 export const MapContext = createContext();
 export const UserContext = createContext();
@@ -24,6 +25,8 @@ function App() {
   });
   const [cords, setCords] = useState({ lat: 19.146342, lng: 72.931738 });
   const [time, setTime] = useState(120);
+  const [lat, setLat] = useState(19.21833);
+  const [lng, setLng] = useState(72.978088);
   const mapData = {
     mapstate,
     setMapstate,
@@ -31,6 +34,10 @@ function App() {
     setCords,
     time,
     setTime,
+    lat,
+    setLat,
+    lng,
+    setLng,
   };
 
   const [name, setName] = useState("");
@@ -67,6 +74,7 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/avatar" element={<Avatar />} />
               <Route path="/logs" element={<LogPage />} />
+              <Route path="/map" element={<MapPage />} />
               <Route path="/*" element={<Pagenotfound />} />
             </Routes>
           </div>

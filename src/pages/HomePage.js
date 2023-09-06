@@ -68,7 +68,7 @@ export default function HomePage() {
   return (
     <div className="child">
       <h2 className="text-center">Live Location</h2>
-      {/* {cords && <GoogleMap />} */}
+      {cords && <GoogleMap cordinates={cords} />}
       <Footer />
     </div>
   );

@@ -32,6 +32,8 @@ export default function LoginPage() {
     const json = await response.json();
     if (json.success) {
       localStorage.setItem("token", json.authToken);
+      localStorage.setItem("info", JSON.stringify(json.user));
+
       navigate("/");
       setTimeout(() => {
         enqueueSnackbar("Logged in Succesfully", { variant: "success" });

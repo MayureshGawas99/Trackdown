@@ -25,9 +25,58 @@ export default function Modal() {
     setAddress,
   } = useContext(UserContext);
   const [password, setPassword] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+
   let navigate = useNavigate();
+  const handleImageChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
   const handleUpdate = async (e) => {
     e.preventDefault();
+    let formData = {
+      name,
+      email,
+      password,
+      phone,
+      mac,
+      address,
+    };
+    if (selectedFile) {
+      // const cloudData = new FormData();
+      // cloudData.append("file", selectedFile);
+      // cloudData.append("upload_preset", "chat-app");
+      // const response = await axios.post(
+      //   `https://api.cloudinary.com/v1_1/djuseai07/image/upload`,
+      //   cloudData
+      // );
+      const cloudinaryUrl =
+        "https://api.cloudinary.com/v1_1/djuseai07/image/upload";
+      const cloudData = new FormData();
+      cloudData.append("file", selectedFile);
+      cloudData.append("upload_preset", "chat-app");
+
+      try {
+        const response = await fetch(cloudinaryUrl, {
+          method: "POST",
+          body: cloudData,
+        });
+
+        if (response.ok) {
+          // Request was successful
+          const responseData = await response.json();
+          formData.pic = responseData.url;
+
+          console.log(responseData);
+        } else {
+          // Handle the error or non-successful response here
+          console.error("Request failed with status:", response.status);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    console.log(formData);
     const response = await fetch(
       `${process.env.REACT_APP_API}/api/v1/auth/updateuser`,
       {
@@ -36,19 +85,17 @@ export default function Modal() {
           "Content-Type": "application/json",
           "auth-token": localStorage.getItem("token"),
         },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          phone,
-          mac,
-          address,
-        }),
+        body: JSON.stringify(formData),
       }
     );
 
     const json = await response.json();
     if (json.success) {
+      console.log(json);
+      localStorage.setItem("info", JSON.stringify(json.user));
+      if (selectedFile) {
+        window.location.reload();
+      }
       setTimeout(() => {
         enqueueSnackbar("Profile Updated Succesfully", { variant: "success" });
       }, 500);
@@ -60,7 +107,7 @@ export default function Modal() {
     <>
       <button
         type="button"
-        class="btn btn-primary"
+        className="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
@@ -87,10 +134,8 @@ export default function Modal() {
               />
             </div>
             <div className="modal-body">
-              <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  Name
-                </label>
+              <div className="mb-2">
+                <p className="d-flex">Name</p>
                 <input
                   type="text"
                   className="form-control"
@@ -102,10 +147,8 @@ export default function Modal() {
                 />
               </div>
 
-              <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  Password
-                </label>
+              <div className="mb-2">
+                <p className="d-flex">Password</p>
                 <input
                   type="password"
                   className="form-control"
@@ -116,10 +159,8 @@ export default function Modal() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  MAC Address
-                </label>
+              <div className="mb-2">
+                <p className="d-flex">MAC Address</p>
                 <input
                   type="text"
                   className="form-control"
@@ -130,10 +171,8 @@ export default function Modal() {
                   onChange={(e) => setMac(e.target.value)}
                 />
               </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  Phone
-                </label>
+              <div className="mb-2">
+                <p className="d-flex">Phone</p>
                 <input
                   type="text"
                   className="form-control"
@@ -144,10 +183,8 @@ export default function Modal() {
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">
-                  Address
-                </label>
+              <div className="mb-2">
+                <p className="d-flex">Address</p>
                 <input
                   type="text"
                   className="form-control"
@@ -157,6 +194,16 @@ export default function Modal() {
                   required
                   onChange={(e) => setAddress(e.target.value)}
                 />
+              </div>
+              <div className="mb-2">
+                <p className="d-flex">Profile Pic</p>
+                <input
+                  type="file"
+                  name="pic"
+                  className="form-control-file w-100"
+                  onChange={handleImageChange}
+                  accept="image/*"
+                ></input>
               </div>
             </div>
             <div className="modal-footer">
@@ -171,6 +218,7 @@ export default function Modal() {
                 type="button"
                 className="btn btn-primary"
                 onClick={handleUpdate}
+                data-bs-dismiss="modal"
               >
                 Update
               </button>

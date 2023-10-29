@@ -18,6 +18,8 @@ export default function ProfilePage() {
     setAddress,
   } = useContext(UserContext);
   const navigate = useNavigate();
+  const info = localStorage.getItem("info");
+  const infojson = JSON.parse(info);
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
@@ -57,28 +59,25 @@ export default function ProfilePage() {
           <div className="col-lg-4">
             <div className="card mb-4">
               <div className="card-body text-center">
+                {/* <div></div> */}
                 <img
-                  src={`./images/${
-                    localStorage.getItem("image")
-                      ? localStorage.getItem("image")
-                      : 5
-                  }.jpg`}
+                  src={infojson.pic}
                   alt="avatar"
                   className="rounded-circle img-fluid"
-                  style={{ width: 150 }}
+                  style={{ width: 150, height: 150 }}
                 />
                 <h5 className="my-3">{name}</h5>
                 <p className="text-muted mb-1">Raspberry Pi MAC Address</p>
                 <p className="text-muted mb-4">{mac}</p>
                 <div className="d-flex justify-content-center mb-2">
                   <Modal />
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-outline-primary ms-1"
                     onClick={() => navigate("/avatar")}
                   >
                     Avatar
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>

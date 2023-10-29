@@ -38,8 +38,8 @@ export default function RegisterPage() {
       });
       const json = await response.json();
       if (json.success) {
-        localStorage.setItem("token", json.authToken);
-        navigate("/");
+        // localStorage.setItem("token", json.authToken);
+        navigate("/login");
         setTimeout(() => {
           enqueueSnackbar("Succesfully Registered", { variant: "success" });
         }, 500);

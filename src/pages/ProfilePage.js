@@ -59,7 +59,6 @@ export default function ProfilePage() {
           <div className="col-lg-4">
             <div className="card mb-4">
               <div className="card-body text-center">
-                {/* <div></div> */}
                 <img
                   src={infojson.pic}
                   alt="avatar"

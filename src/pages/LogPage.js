@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MapContext } from "../App";
 import moment from "moment/moment";
 
 export default function LogPage() {
   const [logs, setLogs] = useState([]);
   const { setLat, setLng } = useContext(MapContext);
-  const navigate = useNavigate();
+  const info = localStorage.getItem("info");
+  const infojson = JSON.parse(info);
   const handleDelete = async (id) => {
     try {
       const response = await axios.delete(
@@ -18,6 +19,7 @@ export default function LogPage() {
           },
         }
       );
+      console.log(response);
       const newLogs = logs.filter((log) => log._id !== id);
       setLogs(newLogs);
     } catch (error) {
@@ -60,11 +62,7 @@ export default function LogPage() {
               >
                 <img
                   style={{ width: 45, height: "100%" }}
-                  src={`./images/${
-                    localStorage.getItem("image")
-                      ? localStorage.getItem("image")
-                      : 5
-                  }.jpg`}
+                  src={infojson.pic}
                   alt="avatar"
                   className="rounded-circle img-fluid"
                 />
